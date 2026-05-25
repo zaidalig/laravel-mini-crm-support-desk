@@ -2,15 +2,56 @@
 
 A Laravel SQLite Mini CRM and Support Desk system with companies, clients, projects, tickets, tasks, staff management, dashboard reports, and activity logs.
 
+This project is built as a clean GitHub portfolio and testing app using Laravel MVC, Blade templates, Bootstrap 5, Font Awesome, Form Request validation, migrations, seeders, and SQLite.
+
+## Tech Stack
+
+- PHP 8.5
+- Laravel 13
+- SQLite
+- Blade templates
+- Bootstrap 5
+- Font Awesome
+- MVC controllers, Eloquent models, migrations, Form Requests, and seeders
+
 ## Features
 
 - Dashboard cards for companies, clients, active projects, open tickets, pending tasks, and overdue tasks.
-- Company, client, project, support ticket, task, and staff CRUD modules.
+- Recent projects, recent support tickets, and latest activity logs on the dashboard.
+- Company CRUD with search, status filter, and detail pages showing related clients, projects, and tickets.
+- Client CRUD with search, company filter, and status filter.
+- Project CRUD with status filter, company filter, progress display, and overdue indicators.
+- Support ticket CRUD with priority badges, status badges, assigned staff, due dates, and detail pages.
 - Ticket comments with public replies and internal notes.
-- Search and filters for list pages.
-- SQLite migrations and sample seed data.
-- Laravel Blade templates with Bootstrap 5 and Font Awesome.
+- Task CRUD for project tasks, ticket tasks, and general tasks with status/priority filters and overdue badges.
+- Staff CRUD for assignment to tickets and tasks.
+- Search and filter forms across list pages.
+- Bootstrap tables, forms, cards, badges, alerts, sidebar navigation, top navbar, and delete confirmation modal.
 - Activity logs created for record create, update, and delete events.
+- Sample companies, clients, staff, projects, tickets, ticket comments, tasks, and activity logs.
+
+## Main Modules
+
+- Dashboard
+- Companies
+- Clients
+- Projects
+- Support Tickets
+- Ticket Comments
+- Tasks
+- Staff
+- Activity Logs
+
+## Database Tables
+
+- `companies`
+- `clients`
+- `projects`
+- `tickets`
+- `ticket_comments`
+- `tasks`
+- `staff`
+- `activity_logs`
 
 ## Setup
 
@@ -18,6 +59,7 @@ A Laravel SQLite Mini CRM and Support Desk system with companies, clients, proje
 composer install
 cp .env.example .env
 php artisan key:generate
+mkdir -p database
 touch database/database.sqlite
 ```
 
@@ -40,14 +82,29 @@ Open the app at:
 http://127.0.0.1:8000
 ```
 
-## GitHub Commands
+## Verification
+
+Useful commands for checking the project:
 
 ```bash
-echo "# laravel-mini-crm-support-desk" >> README.md
-git init
-git add README.md
-git commit -m "first commit"
-git branch -M main
-git remote add origin https://github.com/zaidalig/laravel-mini-crm-support-desk.git
-git push -u origin main
+php artisan migrate:fresh --seed
+php artisan route:list
+php artisan test
 ```
+
+## Routes
+
+Resource routes are included for:
+
+- `companies`
+- `clients`
+- `projects`
+- `tickets`
+- `tasks`
+- `staff`
+
+Extra routes:
+
+- `/` dashboard
+- `/dashboard` dashboard
+- `POST /tickets/{ticket}/comments` ticket comments
