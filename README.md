@@ -25,6 +25,10 @@ This project is built as a clean GitHub portfolio and testing app using Laravel 
 - Ticket comments with public replies and internal notes.
 - Task CRUD for project tasks, ticket tasks, and general tasks with status/priority filters and overdue badges.
 - Staff CRUD for assignment to tickets and tasks.
+- Login/logout authentication with active-account checks.
+- User management with create, edit, delete, role assignment, and block/unblock controls.
+- Role-based permissions for owner, manager, support, and viewer users.
+- Team management with team leads, members, and project assignments.
 - Search and filter forms across list pages.
 - Bootstrap tables, forms, cards, badges, alerts, sidebar navigation, top navbar, and delete confirmation modal.
 - Activity logs created for record create, update, and delete events.
@@ -40,6 +44,8 @@ This project is built as a clean GitHub portfolio and testing app using Laravel 
 - Ticket Comments
 - Tasks
 - Staff
+- Users
+- Teams
 - Activity Logs
 
 ## Database Tables
@@ -51,6 +57,10 @@ This project is built as a clean GitHub portfolio and testing app using Laravel 
 - `ticket_comments`
 - `tasks`
 - `staff`
+- `users`
+- `teams`
+- `team_user`
+- `project_team`
 - `activity_logs`
 
 ## Setup
@@ -82,6 +92,20 @@ Open the app at:
 http://127.0.0.1:8000
 ```
 
+Default demo login:
+
+```text
+Email: owner@example.com
+Password: password
+```
+
+Seeded demo roles:
+
+- `owner@example.com` - Owner
+- `manager@example.com` - Manager
+- `support@example.com` - Support
+- `viewer@example.com` - Viewer, inactive by default
+
 ## Verification
 
 Useful commands for checking the project:
@@ -102,6 +126,8 @@ Resource routes are included for:
 - `tickets`
 - `tasks`
 - `staff`
+- `users`
+- `teams`
 
 Extra routes:
 

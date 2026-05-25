@@ -98,6 +98,18 @@
                 <div class="text-muted small py-2"><i class="fa-solid fa-circle-info me-1"></i>No contact person assigned.</div>
             @endif
         </div>
+
+        <div class="card border-0 shadow-sm rounded-4 p-4">
+            <h5 class="fw-bold text-dark mb-3"><i class="fa-solid fa-people-group text-success me-2"></i>Assigned Teams</h5>
+            @forelse($project->teams as $team)
+                <div class="border rounded-3 p-3 mb-2">
+                    <a href="{{ route('teams.show', $team) }}" class="fw-bold text-decoration-none">{{ $team->name }}</a>
+                    <div class="text-muted small">Lead: {{ $team->lead?->name ?? 'No lead assigned' }}</div>
+                </div>
+            @empty
+                <p class="text-muted mb-0">No teams assigned to this project yet.</p>
+            @endforelse
+        </div>
     </div>
 
     <!-- Right Column: Project Tasks & Description -->

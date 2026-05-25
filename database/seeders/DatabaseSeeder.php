@@ -8,8 +8,10 @@ use App\Models\Company;
 use App\Models\Project;
 use App\Models\Staff;
 use App\Models\Task;
+use App\Models\Team;
 use App\Models\Ticket;
 use App\Models\TicketComment;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -19,6 +21,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $users = collect([
+            ['name' => 'System Owner', 'email' => 'owner@example.com', 'password' => 'password', 'role' => 'owner', 'status' => 'active'],
+            ['name' => 'Project Manager', 'email' => 'manager@example.com', 'password' => 'password', 'role' => 'manager', 'status' => 'active'],
+            ['name' => 'Support Agent', 'email' => 'support@example.com', 'password' => 'password', 'role' => 'support', 'status' => 'active'],
+            ['name' => 'Read Only User', 'email' => 'viewer@example.com', 'password' => 'password', 'role' => 'viewer', 'status' => 'inactive'],
+        ])->map(fn (array $user) => User::create($user));
+
         $companies = collect([
             [
                 'name' => 'Northstar Digital',
@@ -195,6 +204,34 @@ class DatabaseSeeder extends Seeder
                 'priority' => 'medium',
             ],
         ])->each(fn (array $task) => Task::create($task));
+
+        $implementationTeam = Team::create([
+            'name' => 'Implementation Team',
+            'description' => 'Handles active CRM implementation and project delivery work.',
+            'team_lead_id' => $users[1]->id,
+            'status' => 'active',
+        ]);
+
+        $implementationTeam->users()->sync([
+            $users[1]->id => ['member_role' => 'Team Lead'],
+            $users[2]->id => ['member_role' => 'Member'],
+        ]);
+
+        $implementationTeam->projects()->sync([$projects[0]->id, $projects[1]->id]);
+
+        $supportTeam = Team::create([
+            'name' => 'Support Desk Team',
+            'description' => 'Manages incoming tickets, urgent issues, and client support follow-up.',
+            'team_lead_id' => $users[0]->id,
+            'status' => 'active',
+        ]);
+
+        $supportTeam->users()->sync([
+            $users[0]->id => ['member_role' => 'Team Lead'],
+            $users[2]->id => ['member_role' => 'Member'],
+        ]);
+
+        $supportTeam->projects()->sync([$projects[0]->id]);
 
         ActivityLog::create([
             'action' => 'Seeded',

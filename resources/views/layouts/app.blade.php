@@ -67,6 +67,22 @@
                     <span>Staff Directory</span>
                 </a>
             </li>
+            @if(auth()->user()?->canManageTeams())
+                <li class="nav-item">
+                    <a href="{{ route('teams.index') }}" class="nav-link {{ request()->routeIs('teams.*') ? 'active' : '' }}">
+                        <i class="fa-solid fa-people-group"></i>
+                        <span>Teams</span>
+                    </a>
+                </li>
+            @endif
+            @if(auth()->user()?->canManageUsers())
+                <li class="nav-item">
+                    <a href="{{ route('users.index') }}" class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}">
+                        <i class="fa-solid fa-user-gear"></i>
+                        <span>Users</span>
+                    </a>
+                </li>
+            @endif
         </ul>
     </aside>
 
@@ -86,8 +102,14 @@
                     {{ now()->format('M d, Y') }}
                 </span>
                 <span class="badge bg-primary p-2">
-                    <i class="fa-solid fa-circle-user me-1"></i> Admin Portal
+                    <i class="fa-solid fa-circle-user me-1"></i> {{ auth()->user()->name }}
                 </span>
+                <form action="{{ route('logout') }}" method="POST" class="m-0">
+                    @csrf
+                    <button type="submit" class="btn btn-sm btn-outline-secondary rounded-pill">
+                        <i class="fa-solid fa-right-from-bracket me-1"></i> Logout
+                    </button>
+                </form>
             </div>
         </header>
 
