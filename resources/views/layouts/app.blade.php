@@ -31,6 +31,7 @@
                     <span>Dashboard</span>
                 </a>
             </li>
+            @can('manage-crm')
             <li class="nav-item">
                 <a href="{{ route('companies.index') }}" class="nav-link {{ request()->routeIs('companies.*') ? 'active' : '' }}">
                     <i class="fa-solid fa-building"></i>
@@ -67,6 +68,7 @@
                     <span>Staff Directory</span>
                 </a>
             </li>
+            @endcan
             @if(auth()->user()?->canManageTeams())
                 <li class="nav-item">
                     <a href="{{ route('teams.index') }}" class="nav-link {{ request()->routeIs('teams.*') ? 'active' : '' }}">
