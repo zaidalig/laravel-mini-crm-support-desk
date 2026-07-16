@@ -1,0 +1,30 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\ActivityLog;
+use Illuminate\Http\Request;
+
+class ActivityLogController extends Controller
+{
+    public function index(Request $request)
+    {
+        $query = ActivityLog::query();
+
+        if ($request->filled('search')) {
+            $query->where('description', 'like', '%'.$request->input('search').'%');
+        }
+
+        if ($request->filled('action')) {
+            $query->where('action', $request->input('action'));
+        }
+
+        if ($request->filled('module')) {
+            $query->where('module', $request->input('module'));
+        }
+
+        $logs = $query->latest()->paginate(20)->withQueryString();
+
+        return view('activity.index', compact('logs'));
+    }
+}
