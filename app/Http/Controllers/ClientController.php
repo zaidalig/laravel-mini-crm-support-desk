@@ -36,7 +36,8 @@ class ClientController extends Controller
             $query->where('status', $request->input('status'));
         }
 
-        $clients = $query->latest()->paginate(10)->withQueryString();
+        [$sort, $direction] = $this->tableSort($request, ['created_at', 'name', 'email', 'status']);
+        $clients = $query->orderBy($sort, $direction)->paginate($this->tablePerPage($request))->withQueryString();
         $companies = Company::orderBy('name')->get();
 
         return view('clients.index', compact('clients', 'companies'));

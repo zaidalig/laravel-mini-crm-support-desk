@@ -31,7 +31,8 @@ class CompanyController extends Controller
             $query->where('status', $request->input('status'));
         }
 
-        $companies = $query->latest()->paginate(10)->withQueryString();
+        [$sort, $direction] = $this->tableSort($request, ['created_at', 'name', 'status']);
+        $companies = $query->orderBy($sort, $direction)->paginate($this->tablePerPage($request))->withQueryString();
 
         return view('companies.index', compact('companies'));
     }

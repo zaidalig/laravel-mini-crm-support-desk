@@ -146,6 +146,7 @@
 
             @yield('content')
         </main>
+        <footer class="app-footer"><i class="fa-solid fa-headset me-2"></i>Mini CRM &amp; Support Desk</footer>
     </div>
 
     <!-- Unified Delete Confirmation Modal -->

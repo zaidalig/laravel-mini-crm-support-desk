@@ -23,7 +23,8 @@ class ActivityLogController extends Controller
             $query->where('module', $request->input('module'));
         }
 
-        $logs = $query->latest()->paginate(20)->withQueryString();
+        [$sort, $direction] = $this->tableSort($request, ['created_at', 'action', 'module']);
+        $logs = $query->orderBy($sort, $direction)->paginate($this->tablePerPage($request))->withQueryString();
 
         return view('activity.index', compact('logs'));
     }

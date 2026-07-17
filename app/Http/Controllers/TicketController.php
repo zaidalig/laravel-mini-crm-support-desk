@@ -42,7 +42,8 @@ class TicketController extends Controller
             $query->where('priority', $request->input('priority'));
         }
 
-        $tickets = $query->latest()->paginate(10)->withQueryString();
+        [$sort, $direction] = $this->tableSort($request, ['created_at', 'title', 'priority', 'status']);
+        $tickets = $query->orderBy($sort, $direction)->paginate($this->tablePerPage($request))->withQueryString();
         $companies = Company::orderBy('name')->get();
 
         return view('tickets.index', compact('tickets', 'companies'));

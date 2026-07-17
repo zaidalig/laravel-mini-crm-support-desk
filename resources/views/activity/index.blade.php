@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Activity Logs')
-@section('page_title', 'Activity Logs')
+@section('page_title', '🕘 Activity Logs')
 
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4">
@@ -15,7 +15,7 @@
                 <input type="text" name="search" class="form-control" placeholder="Search descriptions..." value="{{ request('search') }}">
             </div>
             <div class="col-12 col-md-3">
-                <select name="action" class="form-select">
+                <select name="action" class="form-select form-select-compact">
                     <option value="">All Actions</option>
                     @foreach(['Created', 'Updated', 'Deleted'] as $action)
                         <option value="{{ $action }}" {{ request('action') === $action ? 'selected' : '' }}>{{ $action }}</option>
@@ -23,7 +23,7 @@
                 </select>
             </div>
             <div class="col-12 col-md-3">
-                <select name="module" class="form-select">
+                <select name="module" class="form-select form-select-compact">
                     <option value="">All Modules</option>
                     @foreach(['Companies', 'Clients', 'Projects', 'Staff', 'Tickets', 'Tasks', 'Teams', 'TicketComments'] as $module)
                         <option value="{{ $module }}" {{ request('module') === $module ? 'selected' : '' }}>{{ $module }}</option>
@@ -73,8 +73,6 @@
             </tbody>
         </table>
     </div>
-    @if($logs->hasPages())
-        <div class="card-footer bg-white">{{ $logs->links() }}</div>
-    @endif
+    @include('components.table-pagination', ['paginator' => $logs, 'sorts' => ['created_at' => 'When', 'action' => 'Action', 'module' => 'Module']])
 </div>
 @endsection

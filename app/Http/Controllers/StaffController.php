@@ -30,7 +30,8 @@ class StaffController extends Controller
             $query->where('status', $request->input('status'));
         }
 
-        $staffList = $query->latest()->paginate(10)->withQueryString();
+        [$sort, $direction] = $this->tableSort($request, ['created_at', 'name', 'email', 'role']);
+        $staffList = $query->orderBy($sort, $direction)->paginate($this->tablePerPage($request))->withQueryString();
 
         return view('staff.index', compact('staffList'));
     }
