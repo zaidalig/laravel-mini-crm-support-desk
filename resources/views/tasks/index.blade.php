@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="col-12 col-md-3">
-                <select name="priority" class="form-select">
+                <select name="priority" class="form-select form-select-compact">
                     <option value="">All Priorities</option>
                     <option value="low" {{ request('priority') === 'low' ? 'selected' : '' }}>Low Priority</option>
                     <option value="medium" {{ request('priority') === 'medium' ? 'selected' : '' }}>Medium Priority</option>
@@ -30,7 +30,7 @@
                 </select>
             </div>
             <div class="col-12 col-md-2">
-                <select name="status" class="form-select">
+                <select name="status" class="form-select form-select-compact">
                     <option value="">All Statuses</option>
                     <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>Pending</option>
                     <option value="in_progress" {{ request('status') === 'in_progress' ? 'selected' : '' }}>In Progress</option>
@@ -112,8 +112,7 @@
                                 @endif
                             </div>
                         </td>
-                        <td class="text-end">
-                            <div class="d-flex justify-content-end gap-1">
+                        <td class="text-end"><div class="table-actions"><div class="table-actions">
                                 <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-sm btn-outline-primary rounded-pill" title="Edit Task">
                                     <i class="fa-solid fa-pen"></i>
                                 </a>
@@ -125,8 +124,7 @@
                                     title="Delete Task">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </button>
-                            </div>
-                        </td>
+                            </div></div></td>
                     </tr>
                 @empty
                     <tr>
@@ -139,10 +137,6 @@
             </tbody>
         </table>
     </div>
-    @if($tasks->hasPages())
-        <div class="card-footer bg-white border-top py-3">
-            {{ $tasks->links() }}
-        </div>
-    @endif
+    @include('components.table-pagination', ['paginator'=>$tasks, 'sorts'=>['created_at'=>'Created','title'=>'Title','priority'=>'Priority','status'=>'Status','due_date'=>'Due']])
 </div>
 @endsection

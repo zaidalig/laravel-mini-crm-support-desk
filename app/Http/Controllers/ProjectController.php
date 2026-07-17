@@ -36,7 +36,8 @@ class ProjectController extends Controller
             $query->where('status', $request->input('status'));
         }
 
-        $projects = $query->latest()->paginate(10)->withQueryString();
+        [$sort, $direction] = $this->tableSort($request, ['created_at', 'title', 'status', 'start_date', 'end_date']);
+        $projects = $query->orderBy($sort, $direction)->paginate($this->tablePerPage($request))->withQueryString();
         $companies = Company::orderBy('name')->get();
 
         return view('projects.index', compact('projects', 'companies'));

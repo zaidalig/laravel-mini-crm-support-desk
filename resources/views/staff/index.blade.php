@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="col-12 col-md-3">
-                <select name="status" class="form-select">
+                <select name="status" class="form-select form-select-compact">
                     <option value="">All Statuses</option>
                     <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Active Only</option>
                     <option value="inactive" {{ request('status') === 'inactive' ? 'selected' : '' }}>Inactive Only</option>
@@ -75,8 +75,7 @@
                                 <span class="badge bg-danger-subtle text-danger border border-danger border-opacity-10 px-2.5 py-1.5 rounded-pill">Inactive</span>
                             @endif
                         </td>
-                        <td class="text-end">
-                            <div class="d-flex justify-content-end gap-1">
+                        <td class="text-end"><div class="table-actions"><div class="table-actions">
                                 <a href="{{ route('staff.edit', $staff->id) }}" class="btn btn-sm btn-outline-primary rounded-pill" title="Edit Staff Details">
                                     <i class="fa-solid fa-pen"></i>
                                 </a>
@@ -88,8 +87,7 @@
                                     title="Remove Staff">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </button>
-                            </div>
-                        </td>
+                            </div></div></td>
                     </tr>
                 @empty
                     <tr>
@@ -102,10 +100,6 @@
             </tbody>
         </table>
     </div>
-    @if($staffList->hasPages())
-        <div class="card-footer bg-white border-top py-3">
-            {{ $staffList->links() }}
-        </div>
-    @endif
+    @include('components.table-pagination', ['paginator'=>$staffList, 'sorts'=>['created_at'=>'Created','name'=>'Name','email'=>'Email','role'=>'Role']])
 </div>
 @endsection

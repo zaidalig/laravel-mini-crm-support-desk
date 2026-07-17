@@ -11,6 +11,7 @@ use App\Http\Controllers\TicketCommentController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\Auth\LoginController;
 
 Route::middleware('guest')->group(function () {
@@ -26,10 +27,15 @@ Route::middleware(['auth', 'active.user'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index']);
 
     // User and team management
-    Route::resource('users', UserController::class)->except(['show']);
-    Route::patch('users/{user}/block', [UserController::class, 'block'])->name('users.block');
-    Route::patch('users/{user}/unblock', [UserController::class, 'unblock'])->name('users.unblock');
-    Route::resource('teams', TeamController::class);
+    Route::middleware('can:manage-users')->group(function () {
+        Route::resource('users', UserController::class)->except(['show']);
+        Route::patch('users/{user}/block', [UserController::class, 'block'])->name('users.block');
+        Route::patch('users/{user}/unblock', [UserController::class, 'unblock'])->name('users.unblock');
+        Route::get('activity-logs', [ActivityLogController::class, 'index'])->name('activity.index');
+    });
+    Route::middleware('can:manage-teams')->group(function () {
+        Route::resource('teams', TeamController::class);
+    });
 
     // Resource Routes
     Route::middleware('can:manage-crm')->group(function () {

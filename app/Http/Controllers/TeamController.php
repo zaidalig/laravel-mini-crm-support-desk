@@ -28,7 +28,8 @@ class TeamController extends Controller
             $query->where('status', $request->input('status'));
         }
 
-        $teams = $query->latest()->paginate(10)->withQueryString();
+        [$sort, $direction] = $this->tableSort($request, ['created_at', 'name']);
+        $teams = $query->orderBy($sort, $direction)->paginate($this->tablePerPage($request))->withQueryString();
 
         return view('teams.index', compact('teams'));
     }

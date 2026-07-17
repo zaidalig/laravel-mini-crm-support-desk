@@ -18,7 +18,7 @@
                 <input type="text" name="search" class="form-control" placeholder="Search users..." value="{{ request('search') }}">
             </div>
             <div class="col-12 col-md-3">
-                <select name="role" class="form-select">
+                <select name="role" class="form-select form-select-compact">
                     <option value="">All Roles</option>
                     @foreach(['owner' => 'Owner', 'manager' => 'Manager', 'support' => 'Support', 'viewer' => 'Viewer'] as $value => $label)
                         <option value="{{ $value }}" {{ request('role') === $value ? 'selected' : '' }}>{{ $label }}</option>
@@ -26,7 +26,7 @@
                 </select>
             </div>
             <div class="col-12 col-md-3">
-                <select name="status" class="form-select">
+                <select name="status" class="form-select form-select-compact">
                     <option value="">All Statuses</option>
                     @foreach(['active' => 'Active', 'inactive' => 'Inactive', 'blocked' => 'Blocked'] as $value => $label)
                         <option value="{{ $value }}" {{ request('status') === $value ? 'selected' : '' }}>{{ $label }}</option>
@@ -74,7 +74,7 @@
                         </td>
                         <td>{{ $user->teams_count }}</td>
                         <td class="text-end">
-                            <div class="d-flex justify-content-end gap-1">
+                            <div class="table-actions">
                                 <a href="{{ route('users.edit', $user) }}" class="btn btn-sm btn-outline-primary rounded-pill">
                                     <i class="fa-solid fa-pen"></i>
                                 </a>
@@ -111,8 +111,6 @@
             </tbody>
         </table>
     </div>
-    @if($users->hasPages())
-        <div class="card-footer bg-white">{{ $users->links() }}</div>
-    @endif
+    @include('components.table-pagination', ['paginator' => $users, 'sorts' => ['created_at' => 'Created', 'name' => 'Name', 'email' => 'Email', 'status' => 'Status']])
 </div>
 @endsection

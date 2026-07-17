@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="col-12 col-md-3">
-                <select name="company_id" class="form-select">
+                <select name="company_id" class="form-select form-select-compact">
                     <option value="">All Companies</option>
                     @foreach($companies as $company)
                         <option value="{{ $company->id }}" {{ request('company_id') == $company->id ? 'selected' : '' }}>{{ $company->name }}</option>
@@ -30,7 +30,7 @@
                 </select>
             </div>
             <div class="col-12 col-md-2">
-                <select name="status" class="form-select">
+                <select name="status" class="form-select form-select-compact">
                     <option value="">All Statuses</option>
                     <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>Pending</option>
                     <option value="in_progress" {{ request('status') === 'in_progress' ? 'selected' : '' }}>In Progress</option>
@@ -108,8 +108,7 @@
                                 <span class="badge bg-danger-subtle text-danger border border-danger border-opacity-10 px-2.5 py-1.5 rounded-pill">Cancelled</span>
                             @endif
                         </td>
-                        <td class="text-end">
-                            <div class="d-flex justify-content-end gap-1">
+                        <td class="text-end"><div class="table-actions"><div class="table-actions">
                                 <a href="{{ route('projects.show', $project->id) }}" class="btn btn-sm btn-outline-info rounded-pill" title="View Project Details">
                                     <i class="fa-solid fa-eye"></i>
                                 </a>
@@ -124,8 +123,7 @@
                                     title="Delete Project">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </button>
-                            </div>
-                        </td>
+                            </div></div></td>
                     </tr>
                 @empty
                     <tr>
@@ -138,10 +136,6 @@
             </tbody>
         </table>
     </div>
-    @if($projects->hasPages())
-        <div class="card-footer bg-white border-top py-3">
-            {{ $projects->links() }}
-        </div>
-    @endif
+    @include('components.table-pagination', ['paginator'=>$projects, 'sorts'=>['created_at'=>'Created','title'=>'Title','status'=>'Status','start_date'=>'Start','end_date'=>'End']])
 </div>
 @endsection

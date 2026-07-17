@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="col-12 col-md-3">
-                <select name="status" class="form-select">
+                <select name="status" class="form-select form-select-compact">
                     <option value="">All Statuses</option>
                     <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Active Only</option>
                     <option value="inactive" {{ request('status') === 'inactive' ? 'selected' : '' }}>Inactive Only</option>
@@ -76,7 +76,7 @@
                             @endif
                         </td>
                         <td class="text-end">
-                            <div class="d-flex justify-content-end gap-1">
+                            <div class="table-actions">
                                 <a href="{{ route('companies.show', $company->id) }}" class="btn btn-sm btn-outline-info rounded-pill" title="View Details">
                                     <i class="fa-solid fa-eye"></i>
                                 </a>
@@ -105,10 +105,6 @@
             </tbody>
         </table>
     </div>
-    @if($companies->hasPages())
-        <div class="card-footer bg-white border-top py-3">
-            {{ $companies->links() }}
-        </div>
-    @endif
+    @include('components.table-pagination', ['paginator' => $companies, 'sorts' => ['created_at' => 'Created', 'name' => 'Name', 'status' => 'Status']])
 </div>
 @endsection

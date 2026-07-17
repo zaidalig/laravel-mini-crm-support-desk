@@ -31,6 +31,7 @@
                     <span>Dashboard</span>
                 </a>
             </li>
+            @can('manage-crm')
             <li class="nav-item">
                 <a href="{{ route('companies.index') }}" class="nav-link {{ request()->routeIs('companies.*') ? 'active' : '' }}">
                     <i class="fa-solid fa-building"></i>
@@ -67,6 +68,7 @@
                     <span>Staff Directory</span>
                 </a>
             </li>
+            @endcan
             @if(auth()->user()?->canManageTeams())
                 <li class="nav-item">
                     <a href="{{ route('teams.index') }}" class="nav-link {{ request()->routeIs('teams.*') ? 'active' : '' }}">
@@ -80,6 +82,12 @@
                     <a href="{{ route('users.index') }}" class="nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}">
                         <i class="fa-solid fa-user-gear"></i>
                         <span>Users</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('activity.index') }}" class="nav-link {{ request()->routeIs('activity.*') ? 'active' : '' }}">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                        <span>Activity Logs</span>
                     </a>
                 </li>
             @endif
@@ -138,6 +146,7 @@
 
             @yield('content')
         </main>
+        <footer class="app-footer"><i class="fa-solid fa-headset me-2"></i>Mini CRM &amp; Support Desk</footer>
     </div>
 
     <!-- Unified Delete Confirmation Modal -->

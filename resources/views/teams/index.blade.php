@@ -18,7 +18,7 @@
                 <input type="text" name="search" class="form-control" placeholder="Search teams..." value="{{ request('search') }}">
             </div>
             <div class="col-12 col-md-3">
-                <select name="status" class="form-select">
+                <select name="status" class="form-select form-select-compact">
                     <option value="">All Statuses</option>
                     <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Active</option>
                     <option value="inactive" {{ request('status') === 'inactive' ? 'selected' : '' }}>Inactive</option>
@@ -62,8 +62,7 @@
                                 {{ ucfirst($team->status) }}
                             </span>
                         </td>
-                        <td class="text-end">
-                            <div class="d-flex justify-content-end gap-1">
+                        <td class="text-end"><div class="table-actions"><div class="table-actions">
                                 <a href="{{ route('teams.show', $team) }}" class="btn btn-sm btn-outline-secondary rounded-pill">
                                     <i class="fa-solid fa-eye"></i>
                                 </a>
@@ -77,8 +76,7 @@
                                     data-name="{{ $team->name }}">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </button>
-                            </div>
-                        </td>
+                            </div></div></td>
                     </tr>
                 @empty
                     <tr><td colspan="6" class="text-center py-5 text-muted">No teams found.</td></tr>
@@ -86,8 +84,6 @@
             </tbody>
         </table>
     </div>
-    @if($teams->hasPages())
-        <div class="card-footer bg-white">{{ $teams->links() }}</div>
-    @endif
+    @include('components.table-pagination', ['paginator'=>$teams, 'sorts'=>['created_at'=>'Created','name'=>'Name']])
 </div>
 @endsection

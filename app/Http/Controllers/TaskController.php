@@ -37,7 +37,8 @@ class TaskController extends Controller
             $query->where('priority', $request->input('priority'));
         }
 
-        $tasks = $query->latest()->paginate(10)->withQueryString();
+        [$sort, $direction] = $this->tableSort($request, ['created_at', 'title', 'priority', 'status', 'due_date']);
+        $tasks = $query->orderBy($sort, $direction)->paginate($this->tablePerPage($request))->withQueryString();
 
         return view('tasks.index', compact('tasks'));
     }
